@@ -296,37 +296,56 @@ function renderBoard() {
   $('stat-total').textContent   = members.length;
 }
 
-// ── ADMIN ─────────────────────────────────────────────────────────────────────
 let adminUnlocked = false;
-
-$('admin-btn').addEventListener('click', () => {
-  $('admin-overlay').style.display = 'flex';
-  if (!adminUnlocked) {
-    $('admin-gate').style.display    = 'block';
-    $('admin-content').style.display = 'none';
-    $('admin-pass').value = '';
-    $('gate-err').textContent = '';
-  }
-});
 
 $('close-overlay').addEventListener('click', closeOverlay);
 $('admin-overlay').addEventListener('click', e => { if(e.target === $('admin-overlay')) closeOverlay(); });
-
 function closeOverlay() { $('admin-overlay').style.display = 'none'; }
 
-$('admin-login-btn').addEventListener('click', () => {
-  if ($('admin-pass').value === CONFIG.ADMIN_PASS) {
+// ── ADMIN SCREENS ─────────────────────────────────────────────────────────────
+// Admin entry from verify screen
+$('btn-admin-entry').addEventListener('click', () => {
+  $('screen-verify').style.display      = 'none';
+  $('screen-admin-login').style.display = 'block';
+  $('admin-login-pass').value = '';
+  $('admin-login-err').textContent = '';
+});
+
+$('btn-back-to-verify').addEventListener('click', () => {
+  $('screen-admin-login').style.display = 'none';
+  $('screen-verify').style.display      = 'block';
+});
+
+$('btn-admin-login').addEventListener('click', unlockAdmin);
+$('admin-login-pass').addEventListener('keydown', e => { if(e.key==='Enter') unlockAdmin(); });
+
+function unlockAdmin() {
+  if ($('admin-login-pass').value === CONFIG.ADMIN_PASS) {
+    $('screen-admin-login').style.display = 'none';
+    $('screen-main').style.display        = 'block';
+    // Show admin overlay immediately
+    $('admin-overlay').style.display = 'flex';
     adminUnlocked = true;
-    $('admin-gate').style.display    = 'none';
-    $('admin-content').style.display = 'block';
+    renderBoard();
     renderMemberList();
     $('history-date').value = today();
     renderHistory();
+    // Update header date
+    const d = new Date();
+    $('header-date').textContent = d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    // Hide member card for admin view
+    $('member-card').style.display = 'none';
   } else {
-    $('gate-err').textContent = 'Incorrect password.';
+    $('admin-login-err').textContent = 'Incorrect password.';
   }
+}
+
+// Admin button (from main screen, if already unlocked)
+$('admin-btn').addEventListener('click', () => {
+  $('admin-overlay').style.display = 'flex';
+  renderMemberList();
+  renderHistory();
 });
-$('admin-pass').addEventListener('keydown', e => { if(e.key==='Enter') $('admin-login-btn').click(); });
 
 // ── TABS ──────────────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(btn => {

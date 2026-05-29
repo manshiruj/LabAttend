@@ -50,6 +50,30 @@
         <button class="btn-link" id="btn-change-phone">Change number</button>
         <div id="otp-msg" class="msg" aria-live="polite"></div>
       </div>
+
+      <!-- Admin entry -->
+      <div class="admin-entry-wrap">
+        <button class="btn-link admin-entry-btn" id="btn-admin-entry">Admin Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN SCREEN (on verify page) -->
+  <div id="screen-admin-login" class="screen" style="display:none;">
+    <div class="auth-wrap">
+      <div class="auth-logo">
+        <span class="logo-dot"></span>
+        LabAttend
+      </div>
+      <p class="auth-sub">Admin Panel</p>
+      <p class="auth-hint">Enter admin password to continue.</p>
+      <div class="field-group">
+        <label for="admin-login-pass">Password</label>
+        <input type="password" id="admin-login-pass" placeholder="••••••" />
+      </div>
+      <button class="btn btn-full" id="btn-admin-login">Unlock Admin Panel</button>
+      <button class="btn-link" id="btn-back-to-verify">← Back</button>
+      <div id="admin-login-err" class="msg error" aria-live="polite"></div>
     </div>
   </div>
 
@@ -116,19 +140,8 @@
         </button>
       </div>
 
-      <!-- Gate -->
-      <div id="admin-gate">
-        <p class="gate-hint">Admin access only.</p>
-        <div class="field-group">
-          <label for="admin-pass">Password</label>
-          <input type="password" id="admin-pass" placeholder="••••••" />
-        </div>
-        <button class="btn btn-full" id="admin-login-btn">Unlock</button>
-        <div id="gate-err" class="msg error" aria-live="polite"></div>
-      </div>
-
-      <!-- Admin content -->
-      <div id="admin-content" style="display:none;">
+      <!-- Admin content (shown after login via admin screen) -->
+      <div id="admin-content">
         <div class="tabs">
           <button class="tab active" data-tab="members">Members</button>
           <button class="tab" data-tab="history">History</button>
